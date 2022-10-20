@@ -31,6 +31,7 @@
     ".NETCoreApp,Version=v3.1": {
       "TicTacToe/1.0.0": {
         "dependencies": {
+          "CSharpFunctionalExtensions": "2.35.0",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "3.1.0.0",
@@ -319,6 +320,17 @@
         },
         "compile": {
           "TicTacToe.dll": {}
+        }
+      },
+      "CSharpFunctionalExtensions/2.35.0": {
+        "runtime": {
+          "lib/netstandard2.0/CSharpFunctionalExtensions.dll": {
+            "assemblyVersion": "2.35.0.0",
+            "fileVersion": "2.35.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/CSharpFunctionalExtensions.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/3.1.0.0": {
@@ -2020,6 +2032,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "CSharpFunctionalExtensions/2.35.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UAcu1xWx45mCFaXm3yXt8jOoHs5U2cP/QVhH72/rq//nuNC+BY1WnipKinrf6LVh41KdQ9dokmCgxvR285an2g==",
+      "path": "csharpfunctionalextensions/2.35.0",
+      "hashPath": "csharpfunctionalextensions.2.35.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Antiforgery/3.1.0.0": {
       "type": "referenceassembly",

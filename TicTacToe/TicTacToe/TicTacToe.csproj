@@ -8,5 +8,9 @@
     <Folder Include="Interfaces\Implementation\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.35.0" />
+  </ItemGroup>
+
 
 </Project>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 const ChatInput = (props) => {
     const [user, setUser] = useState('');
     const [message, setMessage] = useState('');
+    const [userId, setUserId] = useState(1);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -26,7 +27,16 @@ const ChatInput = (props) => {
         setMessage(e.target.value);
     }
 
+    const onUserIdUpdate = (e) => {
+        setUserId(e.target.value);
+    }
+
+    const searchForGame = () =>{
+        props.searchForGame(userId);
+    }
+
     return (
+        <>
         <form 
             onSubmit={onSubmit}>
             <label htmlFor="user">User:</label>
@@ -37,6 +47,12 @@ const ChatInput = (props) => {
                 value={user}
                 onChange={onUserUpdate} />
             <br/>
+
+            <input 
+                id="user" 
+                name="user" 
+                value={userId}
+                onChange={onUserIdUpdate} />
             <label htmlFor="message">Message:</label>
             <br />
             <input 
@@ -48,6 +64,8 @@ const ChatInput = (props) => {
             <br/><br/>
             <button>Submit</button>
         </form>
+        <button onClick={searchForGame}>search For game</button>
+        </>
     )
 };
 

@@ -9,5 +9,8 @@ namespace TicTacToe.Interfaces
   public interface IChatClient
   {
     Task ReceiveMessage(MessageModel message);
+    Task StartGame(MessageModel message);
+
+    Task MakeMove(MessageModel message);
   }
 }

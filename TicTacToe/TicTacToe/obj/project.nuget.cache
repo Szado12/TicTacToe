@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "OhQURABZuknzM8TO2J5PR9n0aUTad89YIlymX9Ux1ByGjMzPe4mhXnG2pgBzC0K68TRtV41of3DoVIt+aAOC5Q==",
+  "dgSpecHash": "k+PKWGsit2HISsTCf8r1LPEjwDK59ePPIwLKfE6QrTMtYjIoSot1TWsKBEb/Nrup+kkkxX2Ul6fk3XDI1tA/eA==",
   "success": true,
-  "projectFilePath": "D:\\TicTacToe\\TicTacToe\\TicTacToe.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\GitHub\\TicTacToe\\TicTacToe\\TicTacToe\\TicTacToe.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Michał\\.nuget\\packages\\csharpfunctionalextensions\\2.35.0\\csharpfunctionalextensions.2.35.0.nupkg.sha512"
+  ],
   "logs": []
 }

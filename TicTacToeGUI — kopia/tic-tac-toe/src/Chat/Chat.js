@@ -33,6 +33,15 @@ const Chat = () => {
                     
                         setChat(updatedChat);
                     });
+
+                
+                    connection.on('MakeMove', _ => {
+                        console.log('MakeMove');
+                    });
+
+                    connection.on('StartGame', _ => {
+                        console.log('StartGame');
+                    });
                 })
                 .catch(e => console.log('Connection failed: ', e));
         }
@@ -56,9 +65,26 @@ const Chat = () => {
         }
     }
 
+    const searchForGame = async(userId) => {
+        if (connection._connectionStarted) {
+            try {
+                var y: number = +userId;
+                await connection.send('AddToWaitList', y);
+                console.log('AddToWaitList '+userId);
+
+            }
+            catch(e) {
+                console.log(e);
+            }
+        }
+        else {
+            alert('No connection to server yet.');
+        }
+    }
+
     return (
         <div>
-            <ChatInput sendMessage={sendMessage} />
+            <ChatInput sendMessage={sendMessage} searchForGame = {searchForGame} />
             <hr />
             <ChatWindow chat={chat}/>
         </div>

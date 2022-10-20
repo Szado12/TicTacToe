@@ -1,11 +1,56 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "CSharpFunctionalExtensions/2.35.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/CSharpFunctionalExtensions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/CSharpFunctionalExtensions.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "CSharpFunctionalExtensions/2.35.0": {
+      "sha512": "UAcu1xWx45mCFaXm3yXt8jOoHs5U2cP/QVhH72/rq//nuNC+BY1WnipKinrf6LVh41KdQ9dokmCgxvR285an2g==",
+      "type": "package",
+      "path": "csharpfunctionalextensions/2.35.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "csharpfunctionalextensions.2.35.0.nupkg.sha512",
+        "csharpfunctionalextensions.nuspec",
+        "lib/net40/CSharpFunctionalExtensions.dll",
+        "lib/net40/CSharpFunctionalExtensions.pdb",
+        "lib/net40/CSharpFunctionalExtensions.xml",
+        "lib/net45/CSharpFunctionalExtensions.dll",
+        "lib/net45/CSharpFunctionalExtensions.pdb",
+        "lib/net45/CSharpFunctionalExtensions.xml",
+        "lib/net461/CSharpFunctionalExtensions.dll",
+        "lib/net461/CSharpFunctionalExtensions.pdb",
+        "lib/net461/CSharpFunctionalExtensions.xml",
+        "lib/net472/CSharpFunctionalExtensions.dll",
+        "lib/net472/CSharpFunctionalExtensions.pdb",
+        "lib/net472/CSharpFunctionalExtensions.xml",
+        "lib/net5.0/CSharpFunctionalExtensions.dll",
+        "lib/net5.0/CSharpFunctionalExtensions.pdb",
+        "lib/net5.0/CSharpFunctionalExtensions.xml",
+        "lib/net6.0/CSharpFunctionalExtensions.dll",
+        "lib/net6.0/CSharpFunctionalExtensions.pdb",
+        "lib/net6.0/CSharpFunctionalExtensions.xml",
+        "lib/netstandard2.0/CSharpFunctionalExtensions.dll",
+        "lib/netstandard2.0/CSharpFunctionalExtensions.pdb",
+        "lib/netstandard2.0/CSharpFunctionalExtensions.xml"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "CSharpFunctionalExtensions >= 2.35.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Michał\\.nuget\\packages\\": {},
@@ -14,11 +59,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\TicTacToe\\TicTacToe\\TicTacToe.csproj",
+      "projectUniqueName": "D:\\GitHub\\TicTacToe\\TicTacToe\\TicTacToe\\TicTacToe.csproj",
       "projectName": "TicTacToe",
-      "projectPath": "D:\\TicTacToe\\TicTacToe\\TicTacToe.csproj",
+      "projectPath": "D:\\GitHub\\TicTacToe\\TicTacToe\\TicTacToe\\TicTacToe.csproj",
       "packagesPath": "C:\\Users\\Michał\\.nuget\\packages\\",
-      "outputPath": "D:\\TicTacToe\\TicTacToe\\obj\\",
+      "outputPath": "D:\\GitHub\\TicTacToe\\TicTacToe\\TicTacToe\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
@@ -51,6 +96,12 @@
     "frameworks": {
       "netcoreapp3.1": {
         "targetAlias": "netcoreapp3.1",
+        "dependencies": {
+          "CSharpFunctionalExtensions": {
+            "target": "Package",
+            "version": "[2.35.0, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
