@@ -63,3 +63,4 @@ D:\GitHub\TicTacToe\TicTacToe\TicTacToe\obj\Debug\netcoreapp3.1\TicTacToe.pdb
 D:\GitHub\TicTacToe\TicTacToe\TicTacToe\obj\Debug\netcoreapp3.1\TicTacToe.genruntimeconfig.cache
 D:\GitHub\TicTacToe\TicTacToe\TicTacToe\bin\Debug\netcoreapp3.1\CSharpFunctionalExtensions.dll
 D:\GitHub\TicTacToe\TicTacToe\TicTacToe\obj\Debug\netcoreapp3.1\TicTacToe.csproj.CopyComplete
+D:\GitHub\TicTacToe\TicTacToe\TicTacToe\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll

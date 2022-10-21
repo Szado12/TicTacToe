@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 using TicTacToe.Interfaces;
 using TicTacToe.Models;
 
@@ -13,14 +15,21 @@ namespace TicTacToe.WebSockets
   {
     public static Dictionary<int, string> WaitList = new Dictionary<int, string>();
 
-    public async Task SendMessage(MessageModel messageModel)
+    public async Task MakeAMove(MakeMoveModel makeMove)
     {
-      await Clients.All.ReceiveMessage(messageModel);
-    }
-
-    public bool MakeAMove(int userId, Tuple<int,int> position)
-    {
-      return true;
+      var result = GameHandler.MakeMove(makeMove);
+      var sd = new int[3, 3];
+      await result
+        .TapError(async (x) => await Clients.Client(Context.ConnectionId).ReceiveMessage(x))
+        .Tap(async (x) =>
+        {
+          if (x == GameResult.InProgress)
+          {
+            var z = GameHandler.FindGameByUserId(makeMove.userId);
+            var y = GameHandler.FindOpponent(makeMove.userId);
+            await Clients.Client(y.ConnectionId).MakeMove(JsonConvert.SerializeObject(sd));
+          }
+        });
     }
 
     public async Task AddToWaitList(int userId)
@@ -28,15 +37,16 @@ namespace TicTacToe.WebSockets
       WaitList.TryAdd(userId,Context.ConnectionId);
       var result = TryCreateGame();
       await result
-        .Tap(x => StartGame(x))
-        .TapError(_ => SendMessage(new MessageModel()));
+        .Tap(StartGame)
+        .TapError(x => Clients.Client(Context.ConnectionId).ReceiveMessage(x));
     }
 
     private async Task StartGame(GameModel gameModel)
     {
-      await Clients.Client(gameModel.Player1.ConnectionId).StartGame(new MessageModel());
-      await Clients.Client(gameModel.Player2.ConnectionId).StartGame(new MessageModel());
-      await Clients.Client(gameModel.Player1.ConnectionId).MakeMove(new MessageModel());
+      var z = new char?[3,3];
+      //await Clients.Client(gameModel.Player1.ConnectionId).StartGame(gameModel.Player2.UserId.ToString());
+      //await Clients.Client(gameModel.Player2.ConnectionId).StartGame(gameModel.Player1.UserId.ToString());
+      await Clients.Client(gameModel.Player1.ConnectionId).MakeMove(JsonConvert.SerializeObject(gameModel.GameBoard));
     }
 
     private Result<GameModel> TryCreateGame()
