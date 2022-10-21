@@ -35,11 +35,11 @@ const Chat = () => {
                     });
 
                 
-                    connection.on('MakeMove', _ => {
+                    connection.on('MakeMove', mes => {
                         console.log('MakeMove');
                     });
 
-                    connection.on('StartGame', _ => {
+                    connection.on('StartGame', mes => {
                         console.log('StartGame');
                     });
                 })
@@ -82,9 +82,30 @@ const Chat = () => {
         }
     }
 
+    const makeMove = async(userId, [x,y]) => {
+        if (connection._connectionStarted) {
+            try {
+                var m = {
+                    userId: userId,
+                    xPos: x,
+                    yPos: y
+                }
+                await connection.send('MakeAMove', m);
+                console.log('MakeAMove '+userId);
+
+            }
+            catch(e) {
+                console.log(e);
+            }
+        }
+        else {
+            alert('No connection to server yet.');
+        }
+    }
+
     return (
         <div>
-            <ChatInput sendMessage={sendMessage} searchForGame = {searchForGame} />
+            <ChatInput sendMessage={sendMessage} searchForGame = {searchForGame} makeMove={makeMove}/>
             <hr />
             <ChatWindow chat={chat}/>
         </div>

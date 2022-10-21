@@ -35,6 +35,9 @@ const ChatInput = (props) => {
         props.searchForGame(userId);
     }
 
+    const makeMove = () => {
+        props.makeMove(userId,[1,1])
+    }
     return (
         <>
         <form 
@@ -65,6 +68,7 @@ const ChatInput = (props) => {
             <button>Submit</button>
         </form>
         <button onClick={searchForGame}>search For game</button>
+        <button onClick={makeMove}>make move</button>
         </>
     )
 };
