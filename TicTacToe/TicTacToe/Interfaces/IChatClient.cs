@@ -11,5 +11,9 @@ namespace TicTacToe.Interfaces
     Task ReceiveMessage(string message);
     Task StartGame(string opponentName);
     Task MakeMove(string s);
+    Task UpdateBoard(string board);
+    Task Draft();
+    Task Win();
+    Task Lost();
   }
 }
