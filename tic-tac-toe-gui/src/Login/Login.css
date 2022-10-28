@@ -1,0 +1,17 @@
+.LoginPage{
+    opacity: 0.8;
+    top:20%;
+    border: #a814ec 3px solid;
+    border-radius: 25px;
+    padding: 50px;
+    background-color: black;
+    color: #a814ec;
+}
+.btn-primary, .btn-primary:active, .btn-primary:visited {
+    background-color: #a814ec !important;
+    border-color: #a814ec;
+}
+.btn-primary:hover{
+    background-color: #730aa3 !important;
+    border-color: #a814ec;
+}

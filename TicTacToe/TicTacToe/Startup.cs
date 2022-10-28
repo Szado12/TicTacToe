@@ -31,7 +31,7 @@ namespace TicTacToe
       services.AddControllers();
       services.AddSignalR();
       services.AddTransient<IScoreboardService, ScoreboardService>();
-      services.AddTransient<IUserService, UserService>();
+      services.AddTransient<IUserService, UserService>(userService => new UserService(userService.GetRequiredService<IScoreboardService>()));
       services.AddCors(options =>
       {
         options.AddPolicy("ClientPermission", policy =>

@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 
-const ChatInput = (props) => {
+export default function GameBoard(props){
     const [userId, setUserId] = useState(1);
-
-    const onUserIdUpdate = (e) => {
-        setUserId(e.target.value);
-    }
 
     const searchForGame = () =>{
         props.searchForGame(userId);
@@ -16,13 +12,7 @@ const ChatInput = (props) => {
     }
     return (
         <>
-        <input 
-                id="user" 
-                name="user" 
-                value={userId}
-                onChange={onUserIdUpdate} />
-        <button onClick={searchForGame}>search For game</button>
-        <button onClick={makeMove}>make move</button>
+        <button onClick={searchForGame}>Search For Game</button>
         <div>
             {props.canMakeMove? "Yout turn": "Enemy turn"}
         </div>
@@ -43,5 +33,3 @@ const ChatInput = (props) => {
         </>
     )
 };
-
-export default ChatInput;

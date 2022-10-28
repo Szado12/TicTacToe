@@ -1,11 +1,11 @@
 import './App.css';
-import Chat from './Game/Game';
+import { UserData } from './Models/UserData';
 
 function App() {
   return (
-    <div style={{ margin: '0 30%' }}>
-      <Chat />
-    </div>
+			<div>ś
+          aa
+      </div>
   );
 }
 

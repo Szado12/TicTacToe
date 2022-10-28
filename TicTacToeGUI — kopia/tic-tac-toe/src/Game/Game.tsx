@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { HubConnectionBuilder } from '@microsoft/signalr';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import './Game.css';
 import ChatInput from './GameBoard';
 import MessageBox from './MessageBox';
 
-const Game = () => {
-    const [ connection, setConnection ] = useState(null);
+export default function Game() {
+    const [connection, setConnection ] = useState<HubConnection>();
     const [canMakeMove, setCanMakeMove] = useState(false);
-    const [ gameBoard, setGameBoard ] = useState([['','',''],['','',''],['','','']]);
+    const [gameBoard, setGameBoard ] = useState([['','',''],['','',''],['','','']]);
     const [message, setMessage] = useState('');
     useEffect(() => {
         const newConnection = new HubConnectionBuilder()
@@ -94,10 +94,8 @@ const Game = () => {
 
     return (
         <div>
-            <ChatInput searchForGame = {searchForGame} makeMove={makeMove} canMakeMove={canMakeMove} gameBoard = {gameBoard} />
-            <MessageBox message={message} searchForGame = {searchForGame} />
+            asd
         </div>
-    );
+    )
 };
 
-export default Game;

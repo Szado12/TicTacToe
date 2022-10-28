@@ -8,21 +8,31 @@ namespace TicTacToe.Interfaces.Implementation
 {
   public class UserService : DefaultService, IUserService
   {
-    public Result Register(string username, string password)
+
+    private IScoreboardService _scoreboardService;
+    public UserService(IScoreboardService scoreboardService)
+    {
+      _scoreboardService = scoreboardService;
+    }
+
+    public Result<UserModelLoginReturn> Register(string username, string password)
     {
       if (DatabaseContext.Users.SingleOrDefault(x => x.Username == username) != null)
       {
-        return Result.Failure("User with same username exist");
+        return Result.Failure<UserModelLoginReturn>("User with same username exist");
       }
 
-      DatabaseContext.Users.Add(new Users()
+      var user = new Users()
       {
         Username = username,
         Password = password
-      });
-      return DatabaseContext.SaveChanges() > 0
-        ? Result.Success()
-        : Result.Failure("An Error happened while user was registered");
+      };
+
+      DatabaseContext.Users.Add(user);
+      if(DatabaseContext.SaveChanges() > 0)
+        return Result.Failure<UserModelLoginReturn>("An Error happened while registering user");
+
+      return Login(username, password);
     }
 
     public Result<UserModelLoginReturn> Login(string username, string password)

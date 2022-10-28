@@ -15,6 +15,19 @@ namespace TicTacToe.Interfaces.Implementation
       return Mapper.Map<List<Scoreboard>,List<ScoreBoardModel>>(DatabaseContext.Scoreboard.ToList());
     }
 
+    public Result CreateScoreboardEntry(int userId)
+    {
+      DatabaseContext.Scoreboard.Add(new Scoreboard()
+      {
+        Drafts = 0,
+        Loses = 1,
+        Wins = 0,
+        UserId = userId
+      });
+      DatabaseContext.SaveChanges();
+      return Result.Success();
+    }
+
     public Result UpdateLoses(int userId)
     {
       var userScoreBoard = DatabaseContext.Scoreboard.SingleOrDefault(x => x.UserId == userId);
@@ -22,19 +35,11 @@ namespace TicTacToe.Interfaces.Implementation
       {
         var loses = userScoreBoard.Loses;
         userScoreBoard.Loses = loses + 1;
+        DatabaseContext.SaveChanges();
+        return Result.Success();
       }
-      else
-      {
-        DatabaseContext.Scoreboard.Add(new Scoreboard()
-        {
-          Drafts = 0,
-          Loses = 1,
-          Wins = 0,
-          UserId = userId
-        });
-      }
-      DatabaseContext.SaveChanges();
-      return Result.Success();
+
+      return Result.Failure("User doesn't exist");
     }
 
     public Result UpdateDrafts(int userId)
@@ -44,19 +49,11 @@ namespace TicTacToe.Interfaces.Implementation
       {
         var drafts = userScoreBoard.Drafts;
         userScoreBoard.Drafts = drafts + 1;
+        DatabaseContext.SaveChanges();
+        return Result.Success();
       }
-      else
-      {
-        DatabaseContext.Scoreboard.Add(new Scoreboard()
-        {
-          Drafts = 1,
-          Loses = 0,
-          Wins = 0,
-          UserId = userId
-        });
-      }
-      DatabaseContext.SaveChanges();
-      return Result.Success();
+
+      return Result.Failure("User doesn't exist");
     }
 
     public Result UpdateWins(int userId)
@@ -66,19 +63,11 @@ namespace TicTacToe.Interfaces.Implementation
       {
         var wins = userScoreBoard.Wins;
         userScoreBoard.Wins = wins + 1;
+        DatabaseContext.SaveChanges();
+        return Result.Success();
       }
-      else
-      {
-        DatabaseContext.Scoreboard.Add(new Scoreboard()
-        {
-          Drafts = 0,
-          Loses = 0,
-          Wins = 1,
-          UserId = userId
-        });
-      }
-      DatabaseContext.SaveChanges();
-      return Result.Success();
+
+      return Result.Failure("User doesn't exist");
     }
   }
 }
