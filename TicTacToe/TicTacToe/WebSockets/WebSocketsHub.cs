@@ -11,9 +11,15 @@ using TicTacToe.Models;
 
 namespace TicTacToe.WebSockets
 {
-  public class WebSocketsHub : Hub<IChatClient>
+  public class WebSocketsHub : Hub<IGameClient>
   {
     public static Dictionary<int, string> WaitList = new Dictionary<int, string>();
+    private IScoreboardService _scoreboardService;
+
+    WebSocketsHub(IScoreboardService scoreboardService)
+    {
+      this._scoreboardService = scoreboardService;
+    }
 
     public async Task MakeAMove(MakeMoveModel makeMove)
     {
@@ -29,34 +35,21 @@ namespace TicTacToe.WebSockets
     private async Task GenerateOutput(GameResult x, int userId)
     {
       var gameModel = GameHandler.FindGameByUserId(userId);
-      var y = GameHandler.FindOpponent(userId);
+      var opponent = GameHandler.FindOpponent(userId);
       switch (x)
       {
         case GameResult.Draft:
-          await Clients.Client(gameModel.Player1.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
-          await Clients.Client(gameModel.Player2.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
-          await Clients.Client(gameModel.Player1.ConnectionId).Draft();
-          await Clients.Client(gameModel.Player2.ConnectionId).Draft();
-          GameHandler.Remove(gameModel);
+          await HandleDraftScenario(gameModel);
           break;
         case GameResult.InProgress:
-          await Clients.Client(gameModel.Player1.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
-          await Clients.Client(gameModel.Player2.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
-          await Clients.Client(y.ConnectionId).MakeMove("");
+          await HandleGameInProgressScenario(GameHandler.FindOpponent(userId), GameHandler.FindPlayer(userId),
+            gameModel.GameBoard);
           break;
         case GameResult.WinPlayer1:
-          await Clients.Client(gameModel.Player1.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
-          await Clients.Client(gameModel.Player2.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
-          await Clients.Client(gameModel.Player1.ConnectionId).Win();
-          await Clients.Client(gameModel.Player2.ConnectionId).Lost();
-          GameHandler.Remove(gameModel);
+          await HandleWinScenario(gameModel.Player1, gameModel.Player2, gameModel);
           break;
         case GameResult.WinPlayer2:
-          await Clients.Client(gameModel.Player1.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
-          await Clients.Client(gameModel.Player2.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
-          await Clients.Client(gameModel.Player1.ConnectionId).Lost();
-          await Clients.Client(gameModel.Player2.ConnectionId).Win();
-          GameHandler.Remove(gameModel);
+          await HandleWinScenario(gameModel.Player2, gameModel.Player1, gameModel);
           break;
       }
     }
@@ -74,9 +67,36 @@ namespace TicTacToe.WebSockets
     {
       await Clients.Client(gameModel.Player1.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
       await Clients.Client(gameModel.Player2.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
-      await Clients.Client(gameModel.Player1.ConnectionId).MakeMove("");
+      await Clients.Client(gameModel.Player1.ConnectionId).MakeMove();
     }
 
+    private async Task HandleWinScenario(PlayerInfo winner, PlayerInfo loser, GameModel gameModel)
+    {
+      await Clients.Client(winner.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
+      await Clients.Client(loser.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
+      await Clients.Client(winner.ConnectionId).Win();
+      await Clients.Client(loser.ConnectionId).Lost();
+      _scoreboardService.UpdateWins(winner.UserId);
+      _scoreboardService.UpdateLoses(loser.UserId);
+      GameHandler.Remove(gameModel);
+    }
+    private async Task HandleDraftScenario(GameModel gameModel)
+    {
+      await Clients.Client(gameModel.Player1.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
+      await Clients.Client(gameModel.Player2.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameModel.GameBoard));
+      await Clients.Client(gameModel.Player1.ConnectionId).Draft();
+      await Clients.Client(gameModel.Player2.ConnectionId).Draft();
+      _scoreboardService.UpdateDrafts(gameModel.Player1.UserId);
+      _scoreboardService.UpdateDrafts(gameModel.Player2.UserId);
+      GameHandler.Remove(gameModel);
+    }
+
+    private async Task HandleGameInProgressScenario(PlayerInfo playerWithMove, PlayerInfo playerWithoutMove, char?[,] gameBoard)
+    {
+      await Clients.Client(playerWithMove.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameBoard));
+      await Clients.Client(playerWithoutMove.ConnectionId).UpdateBoard(JsonConvert.SerializeObject(gameBoard));
+      await Clients.Client(playerWithMove.ConnectionId).MakeMove();
+    }
     private Result<GameModel> TryCreateGame()
     {
       if (WaitList.Count > 1)
@@ -93,5 +113,7 @@ namespace TicTacToe.WebSockets
       }
       return Result.Failure<GameModel>("Not enough players to start game");
     }
+
+
   }
 }

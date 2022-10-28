@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TicTacToe.Interfaces;
+using TicTacToe.Interfaces.Implementation;
 using TicTacToe.WebSockets;
 
 namespace TicTacToe
@@ -28,6 +30,8 @@ namespace TicTacToe
     {
       services.AddControllers();
       services.AddSignalR();
+      services.AddTransient<IScoreboardService, ScoreboardService>();
+      services.AddTransient<IUserService, UserService>();
       services.AddCors(options =>
       {
         options.AddPolicy("ClientPermission", policy =>
