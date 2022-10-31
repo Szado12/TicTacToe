@@ -16,9 +16,16 @@ namespace TicTacToe.WebSockets
     public static Dictionary<int, string> WaitList = new Dictionary<int, string>();
     private IScoreboardService _scoreboardService;
 
-    WebSocketsHub(IScoreboardService scoreboardService)
+    public WebSocketsHub(IScoreboardService scoreboardService)
     {
       this._scoreboardService = scoreboardService;
+    }
+
+    public override Task OnDisconnectedAsync(Exception exception)
+    {
+      if(WaitList.ContainsValue(Context.ConnectionId))
+        WaitList.Remove(WaitList.Single(x=>x.Value == Context.ConnectionId).Key);
+      return base.OnDisconnectedAsync(exception);
     }
 
     public async Task MakeAMove(MakeMoveModel makeMove)
@@ -32,11 +39,10 @@ namespace TicTacToe.WebSockets
         });
     }
 
-    private async Task GenerateOutput(GameResult x, int userId)
+    private async Task GenerateOutput(GameResult result, int userId)
     {
       var gameModel = GameHandler.FindGameByUserId(userId);
-      var opponent = GameHandler.FindOpponent(userId);
-      switch (x)
+      switch (result)
       {
         case GameResult.Draft:
           await HandleDraftScenario(gameModel);
@@ -56,11 +62,14 @@ namespace TicTacToe.WebSockets
 
     public async Task AddToWaitList(int userId)
     {
-      WaitList.TryAdd(userId,Context.ConnectionId);
-      var result = TryCreateGame();
-      await result
-        .Tap(StartGame)
-        .TapError(x => Clients.Client(Context.ConnectionId).ReceiveMessage(x));
+      if (GameHandler.FindGameByUserId(userId) == null)
+      {
+        WaitList.TryAdd(userId, Context.ConnectionId);
+        var result = TryCreateGame();
+        await result
+          .Tap(StartGame)
+          .TapError(x => Clients.Client(Context.ConnectionId).AddedToWaitList());
+      }
     }
 
     private async Task StartGame(GameModel gameModel)

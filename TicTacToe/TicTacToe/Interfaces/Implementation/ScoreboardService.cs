@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using TicTacToe.DataBaseModels;
 using TicTacToe.Models;
 
@@ -12,7 +13,7 @@ namespace TicTacToe.Interfaces.Implementation
   {
     public List<ScoreBoardModel> GetScoreBoard()
     {
-      return Mapper.Map<List<Scoreboard>,List<ScoreBoardModel>>(DatabaseContext.Scoreboard.ToList());
+      return Mapper.Map<List<Scoreboard>,List<ScoreBoardModel>>(DatabaseContext.Scoreboard.Include(x=>x.User).ToList());
     }
 
     public Result CreateScoreboardEntry(int userId)
@@ -20,7 +21,7 @@ namespace TicTacToe.Interfaces.Implementation
       DatabaseContext.Scoreboard.Add(new Scoreboard()
       {
         Drafts = 0,
-        Loses = 1,
+        Loses = 0,
         Wins = 0,
         UserId = userId
       });

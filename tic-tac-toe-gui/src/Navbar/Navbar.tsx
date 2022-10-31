@@ -12,7 +12,7 @@ export default function Navbar(){
         <Container>
         <Router>
             <Routes>
-                <Route path="/login" element={<LoginPage/>}/>
+                <Route path="/" element={<LoginPage/>}/>
                 <Route path="/game" element={<Game/>}/>
             </Routes>
         </Router>

@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 
 export default function GameBoard(props){
-    const [userId, setUserId] = useState(1);
-
-    const searchForGame = () =>{
-        props.searchForGame(userId);
-    }
 
     const makeMove = (x:number,y:number) => {
-        props.makeMove(userId,[x,y])
+        props.makeMove(x,y)
     }
     return (
         <>
-        <button onClick={searchForGame}>Search For Game</button>
         <div>
             {props.canMakeMove? "Yout turn": "Enemy turn"}
         </div>

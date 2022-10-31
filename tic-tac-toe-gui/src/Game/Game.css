@@ -21,3 +21,28 @@
 .player2{
     background-color: #ecaf4f;
 }
+
+.gameContainer {
+    opacity: 1;
+    background: #ffffff;
+    text-align: center;
+}
+
+.searchGameBtn{
+    color: white;
+    background-color: #a814ec !important;
+    border-color: #a814ec;
+    text-align: center;
+    font-size: 2em;
+    margin-top: 50px;
+    border-radius: 5px;
+}
+
+.searchGameBtn:hover{
+    color: white;
+    background-color: #730aa3 !important;
+    border-color: #a814ec;
+    text-align: center;
+    font-size: 2em;
+    border-radius: 5px;
+}

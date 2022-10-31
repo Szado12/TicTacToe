@@ -29,8 +29,10 @@ namespace TicTacToe.Interfaces.Implementation
       };
 
       DatabaseContext.Users.Add(user);
-      if(DatabaseContext.SaveChanges() > 0)
+      if (DatabaseContext.SaveChanges() <= 0)
         return Result.Failure<UserModelLoginReturn>("An Error happened while registering user");
+
+      _scoreboardService.CreateScoreboardEntry(user.UserId);
 
       return Login(username, password);
     }
