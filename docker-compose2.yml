@@ -3,10 +3,16 @@ version: '3.9'
 services:
   ui: 
     container_name: tic-tac-toe-gui
-    image: michalpijanowski/aws:tic-tac-toe-gui
+    image: tic-tac-toe-gui
     environment: 
       - BROWSER=none
       - NODE_ENV=development
+    build:
+      context: ./tic-tac-toe-gui
+      dockerfile: Dockerfile
+    volumes: 
+      - ./tic-tac-toe-gui:/app
+      - /app/node_modules
     ports:
       - 3000:3000
     depends_on:
@@ -14,9 +20,14 @@ services:
   
   api:
     container_name: tic-tac-toe-api
-    image: michalpijanowski/aws:tic-tac-toe-api
+    image: tic-tac-toe-api
+    build:
+      context: ./TicTacToe/TicTacToe
+      dockerfile: Dockerfile
     ports:
       - 5000:5000
+    expose:
+      - "5000"
     environment: 
       ASPNETCORE_URLS: http://+:5000
       ASPNETCORE_ENVIRONMENT: Development
@@ -24,7 +35,7 @@ services:
       - db
 
   db:
-    image: michalpijanowski/aws:db
+    image: mysql:latest
     restart: always
     environment:
       MYSQL_DATABASE: 'TicTacToeDB'
@@ -33,4 +44,6 @@ services:
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
       - '3306:3306'
+    volumes:
+      - ./DB/schema.sql:/docker-entrypoint-initdb.d/init.sql
 
