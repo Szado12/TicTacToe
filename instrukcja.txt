@@ -1,0 +1,14 @@
+1. Utwórz pliki dockerFile dla APi, GUI, DB
+2. Utwóz plik docker compose
+3. Utwórz obrazy
+4. Otaguj stworzone obrazy i umieść je na ECR/DockerHubie
+5. Zmień docker compose aby używał obrazów z ECR/DockerHuba
+
+6. Zaintaluj AWS CLI
+7. skopiuj credentiale ze strony do pliku configuracyjnego
+8. Stwórz i użyj nowego docker contextu
+9. docker compose up -> 
+API: iam:CreateRole User: arn:aws:sts::594066247639:assumed-role/voclabs/user2248472=Micha___Pijanowski is not authorized to perform: iam:CreateRole on resource: arn:aws:iam::594066247639:role/tictactoe-UiTaskExecutionRole-6KIH80ON9MN5 because no identity-based policy allows the iam:CreateRole action
+10. Stwórz ręcznie cluster ECS dla AWS Fargate
+11. Dodaj Task Definition z Container definitons
+12 W stworozny clusterze dodaj Task
