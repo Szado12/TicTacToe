@@ -3,24 +3,49 @@ version: '3.9'
 services:
   ui: 
     container_name: tic-tac-toe-gui
-    image: 127307943928.dkr.ecr.us-east-1.amazonaws.com/tic-tac-toe-gui:08.01.23
+    image: tic-tac-toe-gui
+    build:
+      context: ./tic-tac-toe-gui
+      dockerfile: Dockerfile
     ports:
       - 3000:3000
   
   api:
     container_name: tic-tac-toe-api
-    image: 127307943928.dkr.ecr.us-east-1.amazonaws.com/tic-tac-toe-api:10.01.23
+    image: tic-tac-toe-api
+    build:
+      context: ./TicTacToe/TicTacToe
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    expose:
+      - "5000"
     environment: 
       ASPNETCORE_URLS: http://+:5000
       ASPNETCORE_ENVIRONMENT: Development
-    ports:
-      - 5000:5000
+    depends_on:
+      - db
 
   nginx: 
     container_name: nginx
-    image: 127307943928.dkr.ecr.us-east-1.amazonaws.com/tic-tac-toe-nginx:08.01.23
     depends_on: 
       - ui
       - api
     ports: 
-      - 80:80
+      - "82:82"
+    build:
+      context: ./nginx
+
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'TicTacToeDB'
+      MYSQL_USER: 'TicTacToeAdmin'
+      MYSQL_PASSWORD: 'TicTacToeAdminPassword'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./DB/schema.sql:/docker-entrypoint-initdb.d/init.sql
+

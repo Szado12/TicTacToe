@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  ui: 
+    container_name: tic-tac-toe-gui
+    image: 127307943928.dkr.ecr.us-east-1.amazonaws.com/tic-tac-toe-gui:08.01.23
+    ports:
+      - 3000:3000
+  
+  api:
+    container_name: tic-tac-toe-api
+    image: 127307943928.dkr.ecr.us-east-1.amazonaws.com/tic-tac-toe-api:10.01.23
+    environment: 
+      ASPNETCORE_URLS: http://+:5000
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - 5000:5000
+
+  nginx: 
+    container_name: nginx
+    image: 127307943928.dkr.ecr.us-east-1.amazonaws.com/tic-tac-toe-nginx:08.01.23
+    depends_on: 
+      - ui
+      - api
+    ports: 
+      - 80:80
