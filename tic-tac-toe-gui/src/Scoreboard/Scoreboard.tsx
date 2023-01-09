@@ -10,7 +10,7 @@ export default function Scoreboard(){
 	const [ loading, setLoading ] = useState(true);
 
     const GetScoreBoard = () => {
-		axios.get<ScoreBoardModel[]>('http://localhost:5000/scoreboard').then((response) => {
+		axios.get<ScoreBoardModel[]>('/api/scoreboard').then((response) => {
 			setContractors(response.data);
 			setLoading(false);
 		});

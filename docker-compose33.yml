@@ -15,8 +15,6 @@ services:
       - /app/node_modules
     ports:
       - 3000:3000
-    depends_on:
-      - api
   
   api:
     container_name: tic-tac-toe-api
@@ -33,6 +31,16 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
     depends_on:
       - db
+
+  nginx: 
+    container_name: nginx
+    depends_on: 
+      - ui
+      - api
+    ports: 
+      - "81:80"
+    build:
+      context: ./nginx
 
   db:
     image: mysql:latest

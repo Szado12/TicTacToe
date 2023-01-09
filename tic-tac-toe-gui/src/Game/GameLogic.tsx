@@ -18,7 +18,7 @@ export default function GameLogic() {
 
     useEffect(() => {
         const newConnection = new HubConnectionBuilder()
-            .withUrl('http://localhost:5000/hubs/game')
+            .withUrl('/api/game')
             .withAutomaticReconnect()
             .build();
 

@@ -56,7 +56,7 @@ export default function LoginPage() {
 			Password: password
 		};
 		axios
-			.post('http://localhost:5000/user/Login', data, {})
+			.post('/api/user/Login', data, {})
 			.then((response) => {
 				SaveUserData(response.data);
 				navigate('/game');
@@ -74,7 +74,7 @@ export default function LoginPage() {
 			Password: passwordReg
 		};
 		axios
-			.post('http://localhost:5000/user/Register', data, {})
+			.post('/api/user/Register', data, {})
 			.then((response) => {
 				SaveUserData(response.data);
 				navigate('/game');
