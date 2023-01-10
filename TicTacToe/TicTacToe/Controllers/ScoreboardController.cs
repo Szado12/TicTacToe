@@ -4,7 +4,7 @@ using TicTacToe.Interfaces;
 namespace TicTacToe.Controllers
 {
   [ApiController]
-  [Route("scoreboard")]
+  [Route("api/scoreboard")]
   public class ScoreboardController : ControllerBase
   {
     private IScoreboardService _scoreboardService;

@@ -1,8 +1,7 @@
-FROM node:14-alpine
+FROM node:14-alpine as builder
 
 WORKDIR /app
 
-# This is separate so layers are cached nicely
 COPY ./package.json .
 COPY ./package-lock.json .
 
@@ -15,4 +14,4 @@ RUN npm run build
 FROM nginx
 EXPOSE 3000
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY build /usr/sahre/nginx/html
+COPY --from=builder /app/build /usr/sahre/nginx/html

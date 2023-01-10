@@ -36,16 +36,3 @@ services:
     build:
       context: ./nginx
 
-  db:
-    image: mysql:latest
-    restart: always
-    environment:
-      MYSQL_DATABASE: 'TicTacToeDB'
-      MYSQL_USER: 'TicTacToeAdmin'
-      MYSQL_PASSWORD: 'TicTacToeAdminPassword'
-      MYSQL_ROOT_PASSWORD: 'password'
-    ports:
-      - '3306:3306'
-    volumes:
-      - ./DB/schema.sql:/docker-entrypoint-initdb.d/init.sql
-

@@ -10,7 +10,7 @@ using TicTacToe.Models;
 namespace TicTacToe.Controllers
 {
   [ApiController]
-  [Route("user")]
+  [Route("api/user")]
   public class UserController : ControllerBase
   {
     private readonly IUserService _userService;
